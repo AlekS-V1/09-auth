@@ -33,7 +33,6 @@ export const fetchNotes = async (
       Cookie: cookieStore.toString(),
     },
   });
-  console.log('fetchNotes', data);
   return data;
 };
 
@@ -44,7 +43,6 @@ export const fetchNoteById = async (id: string) => {
       Cookie: cookieStore.toString(),
     },
   });
-  console.log('fetchNoteById', data);
   return data;
 };
 
@@ -57,6 +55,5 @@ export const getServerMe = async (): Promise<User> => {
       Cookie: cookieStore.toString(),
     },
   });
-  console.log('getServerMe', data);
   return data;
 };

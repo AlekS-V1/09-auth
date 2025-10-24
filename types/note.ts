@@ -20,3 +20,8 @@ export interface NewFormNote {
   content: string;
   tag: NoteTag;
 }
+
+export interface notesHttpResponse {
+  notes: Note[];
+  totalPages: number;
+}

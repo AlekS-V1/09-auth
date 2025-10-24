@@ -5,21 +5,21 @@ import css from './EditProfilePage.module.css';
 import Image from 'next/image';
 import { getMe, updateMe } from '@/lib/api/clientApi';
 import { useRouter } from 'next/navigation';
+import { useAuthStore } from '@/lib/store/authStore';
 
 const EditProfile = () => {
-  const [username, setUserName] = useState('');
-  const [avatar, setAvatar] = useState('');
-  const [email, setEmail] = useState('');
-  // const [error, setError] = useState('');
+  const { setUser, user } = useAuthStore();
+  const [username, setUserName] = useState(user?.username ?? '');
+  const [avatar, setAvatar] = useState(user?.avatar ?? '');
+  const [email, setEmail] = useState(user?.email ?? '');
   const router = useRouter();
 
   useEffect(() => {
     getMe().then((user) => {
+      setUser(user);
       setUserName(user.username ?? '');
-      setAvatar(user.avatar ?? '');
-      setEmail(user.email ?? '');
     });
-  }, []);
+  }, [setUser]);
 
   const handleCancel = () => router.push('/profile');
 
@@ -28,11 +28,14 @@ const EditProfile = () => {
   };
   const handleSaveUser = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const res = await updateMe({
+    const user = await updateMe({
       username,
-      email,
     });
-    if (res) {
+    if (user) {
+      setUser(user);
+      setUserName(user.username);
+      setAvatar(user.avatar);
+      setEmail(user.email);
       handleCancel();
     }
   };

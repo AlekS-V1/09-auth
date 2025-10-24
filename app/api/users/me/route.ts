@@ -4,6 +4,8 @@ import { cookies } from 'next/headers';
 import { logErrorResponse } from '../../_utils/utils';
 import { isAxiosError } from 'axios';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
     const cookieStore = await cookies();

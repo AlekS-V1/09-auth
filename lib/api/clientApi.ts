@@ -1,13 +1,12 @@
-import { Note, NewFormNote } from '@/types/note';
-import { User } from '@/types/user';
+import { Note, NewFormNote, notesHttpResponse } from '@/types/note';
+import type {
+  CheckSessionRequest,
+  LoginRequest,
+  RegisterRequest,
+  UpdateUserRequest,
+  User,
+} from '@/types/user';
 import { nextServer } from './api';
-
-interface notesHttpResponse {
-  notes: Note[];
-  totalPages: number;
-}
-
-// const sui = process.env.NEXT_PUBLIC_NOTEHUB_TOKEN;
 
 export async function fetchNotes(
   search: string,
@@ -44,24 +43,13 @@ export async function deleteNote(noteId: string) {
   return response.data;
 }
 
-export type RegisterRequest = {
-  email: string;
-  password: string;
-  userName: string;
-};
 export const register = async (data: RegisterRequest) => {
   const res = await nextServer.post<User>('/auth/register', data);
-  console.log(res);
   return res.data;
 };
 
-export type LoginRequest = {
-  email: string;
-  password: string;
-};
 export const login = async (data: LoginRequest) => {
   const res = await nextServer.post<User>('/auth/login', data);
-  console.log(res);
   return res.data;
 };
 
@@ -69,25 +57,17 @@ export const logout = async (): Promise<void> => {
   await nextServer.post('/auth/logout');
 };
 
-export type CheckSessionRequest = {
-  success: boolean;
-};
 export const checkSession = async () => {
   const res = await nextServer.get<CheckSessionRequest>('/auth/session');
   return res.data.success;
 };
 
-export const getMe = async () => {
+export const getMe = async (): Promise<User> => {
   const { data } = await nextServer.get<User>('/users/me');
   return data;
 };
 
-export type UpdateUserRequest = {
-  email: string;
-  username: string;
-  avatar?: string;
-};
-export const updateMe = async (payload: UpdateUserRequest) => {
+export const updateMe = async (payload: UpdateUserRequest): Promise<User> => {
   const res = await nextServer.patch<User>('/users/me', payload);
   return res.data;
 };

@@ -6,22 +6,13 @@ export type User = {
 
 export type LoginRequest = {
   email: string;
-  username: string;
+  password: string;
+  // username: string;
 };
 
 export type RegisterRequest = {
   email: string;
-  username: string;
-  avatar: string;
-};
-
-export type UpdateUserRequest = {
-  username: string;
-};
-
-export type CheckSessionRequest = {
-  success: boolean;
-  email: string;
-  username: string;
-  avatar: string;
+  password: string;
+  // username: string;
+  avatar?: string;
 };

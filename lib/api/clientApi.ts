@@ -1,12 +1,17 @@
 import { Note, NewFormNote, notesHttpResponse } from '@/types/note';
-import type {
-  CheckSessionRequest,
-  LoginRequest,
-  RegisterRequest,
-  UpdateUserRequest,
-  User,
-} from '@/types/user';
+import type { LoginRequest, RegisterRequest, User } from '@/types/user';
 import { nextServer } from './api';
+
+export type UpdateUserRequest = {
+  username: string;
+};
+
+export type CheckSessionRequest = {
+  success: boolean;
+  email: string;
+  username: string;
+  avatar: string;
+};
 
 export async function fetchNotes(
   search: string,

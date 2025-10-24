@@ -2,8 +2,9 @@ import Link from 'next/link';
 import css from './ProfilePage.module.css';
 import { getServerMe } from '@/lib/api/serverApi';
 import Image from 'next/image';
+import { Metadata } from 'next';
 
-export async function generateMetadata() {
+export async function generateMetadata(): Promise<Metadata> {
   const user = await getServerMe();
   return {
     title: `${user.username} user profile`,

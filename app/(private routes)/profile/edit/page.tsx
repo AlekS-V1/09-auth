@@ -1,9 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import css from './EditProfilePage.module.css';
 import Image from 'next/image';
-import { getMe, updateMe } from '@/lib/api/clientApi';
+import { updateMe } from '@/lib/api/clientApi';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/lib/store/authStore';
 
@@ -12,17 +12,9 @@ const EditProfile = () => {
   const [username, setUserName] = useState(user?.username ?? '');
   const [avatar, setAvatar] = useState(user?.avatar ?? '');
   const [email, setEmail] = useState(user?.email ?? '');
+
   const router = useRouter();
-
-  useEffect(() => {
-    getMe().then((user) => {
-      setUser(user);
-      setUserName(user.username ?? '');
-    });
-  }, [setUser]);
-
   const handleCancel = () => router.push('/profile');
-
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserName(event.target.value);
   };
@@ -34,8 +26,8 @@ const EditProfile = () => {
     if (user) {
       setUser(user);
       setUserName(user.username);
-      setAvatar(user.avatar);
-      setEmail(user.email);
+      setAvatar(user?.avatar);
+      setEmail(user?.email);
       handleCancel();
     }
   };
@@ -56,7 +48,7 @@ const EditProfile = () => {
 
         <form className={css.profileInfo} onSubmit={handleSaveUser}>
           <div className={css.usernameWrapper}>
-            <label htmlFor="username">Username: {username}</label>
+            <label htmlFor="username">Username:</label>
             <input
               id="username"
               type="text"
@@ -66,7 +58,10 @@ const EditProfile = () => {
             />
           </div>
 
-          <p>Email: {email}</p>
+          <p>
+            <strong>Email: </strong>
+            {email}
+          </p>
 
           <div className={css.actions}>
             <button type="submit" className={css.saveButton}>

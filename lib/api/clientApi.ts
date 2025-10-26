@@ -33,27 +33,27 @@ export async function fetchNotes(
   return response.data;
 }
 
-export const fetchNoteById = async (id: string) => {
+export const fetchNoteById = async (id: string): Promise<Note> => {
   const res = await nextServer.get<Note>(`/notes/${id}`);
   return res.data;
 };
 
-export async function createNote(data: NewFormNote) {
+export async function createNote(data: NewFormNote): Promise<Note> {
   const response = await nextServer.post<Note>('/notes', data);
   return response.data;
 }
 
-export async function deleteNote(noteId: string) {
+export async function deleteNote(noteId: string): Promise<Note> {
   const response = await nextServer.delete<Note>(`/notes/${noteId}`);
   return response.data;
 }
 
-export const register = async (data: RegisterRequest) => {
+export const register = async (data: RegisterRequest): Promise<User> => {
   const res = await nextServer.post<User>('/auth/register', data);
   return res.data;
 };
 
-export const login = async (data: LoginRequest) => {
+export const login = async (data: LoginRequest): Promise<User> => {
   const res = await nextServer.post<User>('/auth/login', data);
   return res.data;
 };
@@ -62,7 +62,7 @@ export const logout = async (): Promise<void> => {
   await nextServer.post('/auth/logout');
 };
 
-export const checkSession = async () => {
+export const checkSession = async (): Promise<boolean> => {
   const res = await nextServer.get<CheckSessionRequest>('/auth/session');
   return res.data.success;
 };
